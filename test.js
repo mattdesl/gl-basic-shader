@@ -52,7 +52,6 @@ test('generates correct shader source', function(t) {
         color: true,
         normal: false
     })
-    console.log(source.vertex, '\n', source.fragment)
 
     t.end()
 })
