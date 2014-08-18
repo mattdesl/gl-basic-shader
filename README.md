@@ -80,6 +80,25 @@ var source = require('gl-basic-shader').generate(options)
 console.log(source.vertex, source.fragment)
 ```
 
+## attributes
+
+The attributes. Some may not be present if not specified at construction.
+
+- `vec4 position`
+- `vec3 normal`
+- `vec4 color`
+- `vec2 texcoord0`, `texcoord1`, etc..
+
+## uniforms
+
+The uniforms. 
+
+- `mat4 model`
+- `mat4 view`
+- `mat4 projection`
+- `vec4 tint`
+- `sampler2D texture0`, `texture1`, etc
+
 ## License
 
 MIT, see [LICENSE.md](http://github.com/mattdesl/gl-basic-shader/blob/master/LICENSE.md) for details.
