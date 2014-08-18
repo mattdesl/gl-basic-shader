@@ -5,25 +5,7 @@ var POSITION_ATTRIBUTE = 'position',
     COLOR_ATTRIBUTE = 'color',
     TEXCOORD_ATTRIBUTE = 'texcoord';
 
-function idt(out) { //TODO: move to stackgl/gl-mat4
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = 1;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[10] = 1;
-    out[11] = 0;
-    out[12] = 0;
-    out[13] = 0;
-    out[14] = 0;
-    out[15] = 1;
-    return out
-}
+var identity = require('gl-mat4/identity')
 
 module.exports = function(gl, options) {
     options = options||{}
@@ -58,7 +40,7 @@ module.exports = function(gl, options) {
     for (var i=0; i<options.texcoord; i++) 
         shader.uniforms['texture'+i] = i
 
-    var arr = idt( new Float32Array(16) )
+    var arr = identity( new Float32Array(16) )
     shader.uniforms.projection = arr
     shader.uniforms.model = arr
     shader.uniforms.view = arr
