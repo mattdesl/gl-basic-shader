@@ -4,7 +4,7 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-Generates and compiles a basic shader with some common attributes and uniforms.
+Generates and compiles a basic shader with some common attributes and uniforms and a Model, View, Projection vertex transform.
 
 ```js
 var createShader = require('gl-basic-shader')
@@ -67,7 +67,9 @@ Creates a basic shader with the given options:
 - `color` whether to generate a `color` attribute vec4
 - `tint` the default value bound to the `tint` uniform vec4, if not specified then white is used
 
-If the `texcoord`, `normal` or `color` options are false (or 0 for texcoord) then that attribute will not be included in the shader.
+If the `texcoord`, `normal` or `color` options are false (or `texcoord` is 0) then that attribute will not be included in the shader.
+
+The `projection`, `model`, and `view` matrices are set to an identity matrix initially. 
 
 ### `createShader.generate([options])`
 
