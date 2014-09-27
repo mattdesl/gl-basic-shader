@@ -1,6 +1,6 @@
 {
   "name": "gl-basic-shader",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "generates a basic shader with vertex attributes",
   "main": "index.js",
   "license": "MIT",
