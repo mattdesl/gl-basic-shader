@@ -53,5 +53,28 @@ test('generates correct shader source', function(t) {
         normal: false
     })
 
+    var obj =  { 
+      vertex: 'attribute vec4 position;\nattribute vec3 normal;\nattribute vec2 texcoord0;\nattribute vec2 texcoord1;\nuniform mat4 projection;\nuniform mat4 view;\nuniform mat4 model;\nvarying vec2 v_tex0;\nvarying vec2 v_tex1;\nvoid main() {\n   gl_Position = projection * view * model * position;\n   v_tex0 = texcoord0;\n   v_tex1 = texcoord1;\n   gl_PointSize = 1.0;\n}\n',
+      fragment: '#ifdef GL_ES\nprecision mediump float;\n#endif\nvarying vec2 v_tex0;\nuniform sampler2D texture0;\nvarying vec2 v_tex1;\nuniform sampler2D texture1;\nuniform vec4 tint;\nvoid main() {\n   gl_FragColor =  texture2D(texture0,  v_tex0) * texture2D(texture1,  v_tex1) * tint;\n}',
+      uniforms: 
+       [ { type: 'mat4', name: 'projection' },
+         { type: 'mat4', name: 'view' },
+         { type: 'mat4', name: 'model' },
+         { type: 'vec4', name: 'tint' },
+         { type: 'sampler2D', name: 'texture0' },
+         { type: 'sampler2D', name: 'texture1' } ],
+      attributes: 
+       [ { type: 'vec4', name: 'position', location: 0 },
+         { type: 'vec3', name: 'normal', location: 1 },
+         { type: 'vec2', name: 'texcoord0', location: 3 },
+         { type: 'vec2', name: 'texcoord1', location: 4 } ] 
+     }
+
+    var r = generate({
+        normal: true,
+        texcoord: 2
+    })
+
+    t.deepEqual(r, obj)
     t.end()
 })

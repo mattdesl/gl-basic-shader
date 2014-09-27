@@ -14,27 +14,10 @@ module.exports = function(gl, options) {
         
     var shaderSource = module.exports.generate(options),
         vert = shaderSource.vertex,
-        frag = shaderSource.fragment
+        frag = shaderSource.fragment,
+        uniforms = shaderSource.uniforms,
+        attribs = shaderSource.attributes
     
-    var uniforms = [
-        { type: 'mat4', name: 'projection' },
-        { type: 'mat4', name: 'view' },
-        { type: 'mat4', name: 'model' },
-        { type: 'vec4', name: 'tint' }
-    ]
-    var attribs = [
-        { type: 'vec4', name: POSITION_ATTRIBUTE }
-    ]
-
-    for (var i=0; i<options.texcoord; i++) {
-        uniforms.push({ type: 'sampler2D', name: 'texture'+i })
-        attribs.push({ type: 'vec2', name: TEXCOORD_ATTRIBUTE+i })
-    }
-    if (options.normal)
-        attribs.push({ type: 'vec3', name: NORMAL_ATTRIBUTE })
-    if (options.color)
-        attribs.push({ type: 'vec4', name: COLOR_ATTRIBUTE })
-
     var shader = createShader(gl, vert, frag, uniforms, attribs)
     shader.bind()
     for (var i=0; i<options.texcoord; i++) 
@@ -56,8 +39,34 @@ module.exports.generate = function(options) {
 
     var vert = createVertexShader(options.normal, options.color, options.texcoord)
     var frag = createFragmentShader(options.color, options.texcoord)
-    return { vertex: vert, fragment: frag }
+
+    var uniforms = [
+        { type: 'mat4', name: 'projection' },
+        { type: 'mat4', name: 'view' },
+        { type: 'mat4', name: 'model' },
+        { type: 'vec4', name: 'tint' }
+    ]
+
+    //Similar to old school pipeline, we will use fixed locations
+    //http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/attributes.php
+    var attribs = [
+        { type: 'vec4', name: POSITION_ATTRIBUTE, location: 0 }
+    ]
+
+    if (options.normal)
+        attribs.push({ type: 'vec3', name: NORMAL_ATTRIBUTE, location: 1 })
+    if (options.color)
+        attribs.push({ type: 'vec4', name: COLOR_ATTRIBUTE, location: 2 })
+
+    var idx = 3
+    for (var i=0; i<options.texcoord; i++) {
+        uniforms.push({ type: 'sampler2D', name: 'texture'+i })
+        attribs.push({ type: 'vec2', name: TEXCOORD_ATTRIBUTE+i, location: idx++ })
+    }
+
+    return { vertex: vert, fragment: frag, uniforms: uniforms, attributes: attribs }
 }
+
 
 function createVertexShader(hasNormals, hasColors, numTexCoords) {
     numTexCoords = numTexCoords || 0;
@@ -106,7 +115,7 @@ function createFragmentShader(hasColors, numTexCoords) {
         shader += "varying vec2 v_tex" + i + ";\n";
         shader += "uniform sampler2D texture" + i + ";\n";
     }
-    shader += "uniform vec4 tint;\n",
+    shader += "uniform vec4 tint;\n";
 
     shader += "void main() {\n" + "   gl_FragColor = ";
 
@@ -127,7 +136,6 @@ function createFragmentShader(hasColors, numTexCoords) {
     }
 
     shader += " * tint"
-
     shader += ";\n}";
     return shader;
 }

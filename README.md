@@ -75,19 +75,20 @@ The `projection`, `model`, and `view` matrices are set to an identity matrix ini
 
 This function is exposed to provide the generated shader source, useful for testing and other purposes where GL shader compilation may not be desirable. The options are the same as the constructor.
 
+
 ```js
 var source = require('gl-basic-shader').generate(options)
-console.log(source.vertex, source.fragment)
+console.log(source.vertex, source.fragment, source.attributes, source.uniforms)
 ```
 
 ## attributes
 
-The attributes. Some may not be present if not specified at construction.
+The attributes. Some may not be present if not specified at construction. They use a fixed location for easier VAO bindings.
 
-- `vec4 position`
-- `vec3 normal`
-- `vec4 color`
-- `vec2 texcoord0`, `texcoord1`, etc..
+- `vec4 position` (location=0)
+- `vec3 normal` (location=1)
+- `vec4 color` (location=2)
+- `vec2 texcoord0`, `texcoord1`, etc.. (location=3..N)
 
 ## uniforms
 
