@@ -108,10 +108,10 @@ Examples:
 
 ```sh
 # print the vertex and fragment shader with the given options
-gl-basic-shader --color --normal --texcoord=2 --frag
+gl-basic-shader --color --normal --texcoord=2
 
 # print a new vertex shader to a file
-gl-basic-shader -v > vert.glsl
+gl-basic-shader --vert > vert.glsl
 
 # pretty-print the JSON with extracted uniform/attribute info
 # could then be fed easily into gl-shader-core
