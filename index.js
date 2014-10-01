@@ -93,7 +93,7 @@ function createVertexShader(hasNormals, hasColors, numTexCoords) {
         shader += "varying vec2 v_tex" + i + ";\n";
     }
 
-    shader += "void main() {\n" + "   gl_Position = projection * view * model * " + POSITION_ATTRIBUTE + ";\n"
+    shader += "\nvoid main() {\n" + "   gl_Position = projection * view * model * " + POSITION_ATTRIBUTE + ";\n"
             + (hasColors ? "   v_col = " + COLOR_ATTRIBUTE + ";\n" : "");
 
     for (i = 0; i < numTexCoords; i++) {
@@ -107,7 +107,7 @@ function createVertexShader(hasNormals, hasColors, numTexCoords) {
 
 function createFragmentShader(hasColors, numTexCoords) {
     numTexCoords = numTexCoords || 0;
-    var shader = "#ifdef GL_ES\n" + "precision mediump float;\n" + "#endif\n";
+    var shader = "#ifdef GL_ES\n" + "precision mediump float;\n" + "#endif\n\n";
  
     if (hasColors) 
         shader += "varying vec4 v_col;\n";
@@ -119,7 +119,7 @@ function createFragmentShader(hasColors, numTexCoords) {
     }
     shader += "uniform vec4 tint;\n";
 
-    shader += "void main() {\n" + "   gl_FragColor = ";
+    shader += "\nvoid main() {\n" + "   gl_FragColor = ";
 
     if (hasColors)
         shader += "v_col"

@@ -4,7 +4,7 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-Generates and compiles a basic shader with some common attributes and uniforms and a Model, View, Projection vertex transform.
+Generates and compiles a basic shader with some common attributes and uniforms and a Model, View, Projection vertex transform. Also includes a [command-line interface](#cli)
 
 ```js
 var createShader = require('gl-basic-shader')
@@ -99,6 +99,42 @@ The uniforms.
 - `mat4 projection`
 - `vec4 tint`
 - `sampler2D texture0`, `texture1`, etc
+
+## cli
+
+You can also use the command line tool to print a generic shader.
+
+Examples:
+
+```sh
+# print the vertex and fragment shader with the given options
+gl-basic-shader --color --normal --texcoord=2 --frag
+
+# print a new vertex shader to a file
+gl-basic-shader -v > vert.glsl
+
+# pretty-print the JSON with extracted uniform/attribute info
+# could then be fed easily into gl-shader-core
+gl-basic-shader -jpe > shader.json
+```
+
+Full options:
+
+```
+Generate a basic shader.
+Usage: gl-basic-shader [opts]
+
+Options:
+  --help, -h      show help message                   
+  --color, -c     insert color vertex attribute       
+  --texcoord, -t  insert texcoord vertex attribute(s) 
+  --normal, -n    insert normal vertex attribute      
+  --json, -j      json output                         
+  --pretty, -p    pretty print json                   
+  --extract, -e   extract attribs/uniforms (json only)
+  --frag, -f      only show fragment shader           
+  --vert, -v      only show vertex shader  
+```
 
 ## License
 

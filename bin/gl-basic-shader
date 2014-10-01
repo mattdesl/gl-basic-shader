@@ -1,0 +1,47 @@
+var argv = require('yargs')
+		.help('help', 'show help message')
+		.alias('color', 'c')
+		.alias('help', 'h')
+		.alias('texcoord', 't')
+		.alias('normal', 'n')
+		.alias('json', 'j')
+		.alias('pretty', 'p')
+		.alias('extract', 'e')
+		.alias('frag', 'f')
+		.alias('vert', 'v')
+		.usage('Generate a basic shader.\nUsage: gl-basic-shader [opts]')
+		.describe('color', 'insert color vertex attribute')
+		.describe('texcoord', 'insert texcoord vertex attribute(s)')
+		.describe('normal', 'insert normal vertex attribute')
+		.describe('json', 'json output')
+		.describe('pretty', 'pretty print json')
+		.describe('extract', 'extract attribs/uniforms (json only)')
+		.describe('frag', 'only show fragment shader')
+		.describe('vert', 'only show vertex shader')
+		.argv
+
+var generate = require('../').generate
+
+var out = generate({
+	texcoord: argv.t === true || parseInt(argv.t, 10),
+	color: argv.c,
+	normal: argv.n
+})
+
+if (!(argv.f && argv.v)) {
+	if (argv.f)
+		delete out.vertex
+	if (argv.v)
+		delete out.fragment
+}
+
+var pretty = argv.p ? 2 : undefined
+if (argv.j) {
+	if (!argv.e) {
+		delete out.uniforms
+		delete out.attributes
+	}
+	process.stdout.write(JSON.stringify(out, undefined, pretty)+'\n')
+} else {
+	process.stdout.write([out.vertex, out.fragment].join('\n').trim()+'\n')
+}

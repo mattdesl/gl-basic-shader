@@ -7,7 +7,8 @@
   "author": "Matt DesLauriers <dave.des@gmail.com>",
   "dependencies": {
     "gl-mat4": "^1.0.0",
-    "gl-shader-core": "^2.2.0"
+    "gl-shader-core": "^2.2.0",
+    "yargs": "^1.3.1"
   },
   "devDependencies": {
     "tape": "~2.13.2"
@@ -35,6 +36,9 @@
   "homepage": "https://github.com/mattdesl/gl-basic-shader",
   "bugs": {
     "url": "https://github.com/mattdesl/gl-basic-shader/issues"
+  },
+  "bin": {
+    "gl-basic-shader": "./bin/gl-basic-shader"
   },
   "keywords": [
     "glsl",
