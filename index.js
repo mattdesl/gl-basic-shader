@@ -1,3 +1,4 @@
+var identity = require('gl-mat4/identity')
 var createShader = require('gl-shader-core')
 
 var POSITION_ATTRIBUTE = 'position',
@@ -5,7 +6,6 @@ var POSITION_ATTRIBUTE = 'position',
     COLOR_ATTRIBUTE = 'color',
     TEXCOORD_ATTRIBUTE = 'texcoord';
 
-var identity = require('gl-mat4/identity')
 
 module.exports = function(gl, options) {
     options = options||{}
@@ -37,8 +37,10 @@ module.exports.generate = function(options) {
     options.texcoord = typeof options.texcoord === 'number' 
                 ? options.texcoord : (options.texcoord||0)
 
-    var vert = createVertexShader(options.normal, options.color, options.texcoord)
-    var frag = createFragmentShader(options.color, options.texcoord)
+    var vert = typeof options.vertex === 'string'
+            ? options.vertex : createVertexShader(options.normal, options.color, options.texcoord)
+    var frag = typeof options.fragment === 'string'
+            ? options.fragment : createFragmentShader(options.color, options.texcoord)
 
     var uniforms = [
         { type: 'mat4', name: 'projection' },
