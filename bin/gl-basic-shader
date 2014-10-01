@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var argv = require('yargs')
 		.help('help', 'show help message')
 		.alias('color', 'c')
