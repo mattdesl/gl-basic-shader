@@ -37,8 +37,9 @@ module.exports.generate = function(options) {
     options.texcoord = typeof options.texcoord === 'number' 
                 ? options.texcoord : (options.texcoord||0)
 
+    var pointSize = typeof options.pointSize === 'number' ? options.pointSize : 1;
     var vert = typeof options.vertex === 'string'
-            ? options.vertex : createVertexShader(options.normal, options.color, options.texcoord)
+            ? options.vertex : createVertexShader(options.normal, options.color, options.texcoord, pointSize)
     var frag = typeof options.fragment === 'string'
             ? options.fragment : createFragmentShader(options.color, options.texcoord)
 
@@ -70,7 +71,7 @@ module.exports.generate = function(options) {
 }
 
 
-function createVertexShader(hasNormals, hasColors, numTexCoords) {
+function createVertexShader(hasNormals, hasColors, numTexCoords, pointSize) {
     numTexCoords = numTexCoords || 0;
     var shader = "";
     shader += "attribute vec4 "+POSITION_ATTRIBUTE+";\n"
@@ -78,6 +79,7 @@ function createVertexShader(hasNormals, hasColors, numTexCoords) {
          + (hasColors ? "attribute vec4 " + COLOR_ATTRIBUTE + ";\n" : "");
 
     var i;
+    pointSize = pointSize.toFixed(5);
 
     for (i = 0; i < numTexCoords; i++) {
         shader += "attribute vec2 " + TEXCOORD_ATTRIBUTE + i + ";\n";
@@ -99,7 +101,7 @@ function createVertexShader(hasNormals, hasColors, numTexCoords) {
     for (i = 0; i < numTexCoords; i++) {
         shader += "   v_tex" + i + " = " + TEXCOORD_ATTRIBUTE + i + ";\n";
     }
-    shader += "   gl_PointSize = 1.0;\n";
+    shader += "   gl_PointSize = "+pointSize+";\n";
     shader += "}\n";
 
     return shader;
