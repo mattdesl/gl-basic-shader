@@ -66,6 +66,7 @@ Creates a basic shader with the given options:
 - `normal` wherther to generate a `normal` attribute vec3
 - `color` whether to generate a `color` attribute vec4
 - `tint` the default value bound to the `tint` uniform vec4, if not specified then white is used
+- `pointSize` the `gl_PointSize` for the vertex shader, defualt 1.0
 
 If the `texcoord`, `normal` or `color` options are false (or `texcoord` is 0) then that attribute will not be included in the shader.
 
@@ -74,7 +75,6 @@ The `projection`, `model`, and `view` matrices are set to an identity matrix ini
 ### `createShader.generate([options])`
 
 This function is exposed to provide the generated shader source, useful for testing and other purposes where GL shader compilation may not be desirable. The options are the same as the constructor.
-
 
 ```js
 var source = require('gl-basic-shader').generate(options)
